@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jzq.dao.SwordMapper">
+    <insert id="insertSword" parameterType="map">
+        insert into rank(name, ability, designation) values(#{params.name},
+        #{params.ability}, #{params.designation})
+    </insert>
+
+    <select id="selectSword" resultType="Rate" parameterType="Page">
+        select rk.id, rk.name, rk.ability, dc.code_name designation from rank rk
+        left join designation_code dc on rk.designation = dc.code
+        order by rk.ability desc
+        <if test="size != 0">
+            limit #{beginIndex}, #{size}
+        </if>
+    </select>
+
+    <select id="selectSwordByName" resultType="int">
+        select count(1) from rank where name = #{name}
+    </select>
+
+    <update id="updateSword" parameterType="map">
+        update rank set ability = #{params.ability}, designation = #{params.designation}
+        where name = #{params.name}
+    </update>
+</mapper>
